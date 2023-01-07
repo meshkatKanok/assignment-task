@@ -31,6 +31,16 @@ const BillingCard = () => {
     const [thana,setThanaData]=useState()
     const [thanaData,setThanaDataall]=useState()
     const [enabale,setEnable]=useState(true)
+    const [enabaledeve,setEnableDeve]=useState(true)
+    const [enabaleDist,setEnableDist]=useState(true)
+    const [enabaleThana,setEnableThana]=useState(true)
+    const [enabaleUmiom,setEnableUnion]=useState(true)
+    const [enabaleZip,setEnableZip]=useState(true)
+    const [enabalevillage,setEnableVillage]=useState(true)
+    const [enabalehouse,setEnableHouse]=useState(true)
+    const [enabalephone,setEnablephone]=useState(true)
+    const [enabalefax,setEnableFax]=useState(true)
+    const [copyData,setCopyData]=useState({})
     useEffect(() => {
         fetch('country.json')
           .then((res) => res.json())
@@ -45,8 +55,10 @@ console.log( UnionValue);
               
                 setSelected(country?.country_name)
                 setActive(!isActive)
+                
                
             }
+            setEnableDeve(false)
            
             setActive(!isActive)
           
@@ -62,44 +74,30 @@ console.log( UnionValue);
             setSeletctState(division?.state_name)
             setStateAvtive(!issate)
         }
+        setEnableDist(false)
         setStateAvtive(!issate)      
-        console.log(division.id);
+         
      
       const getDis=state.find(sate=>sate.id===division.id)
         setDist(getDis?.dis);
        setThanaData(getDis?.dis)
  }
-console.log(thana);
+ 
  const handleThana=(dis)=>{
-    console.log(dis.id);
+   
     
         if(dis?.name?.toLocaleLowerCase()!==seleted.toLocaleLowerCase()){
             setSeletctDivi(dis?.name)
             setDistrictAvtive(!isdistrict)
         }
+        setEnableThana(false)
         setDistrictAvtive(!isdistrict)
         const getThana=thana.find(thanData=>thanData?.id===dis?.id)
         setThanaDataall(getThana?.thana);
-        console.log(getThana?.thana);
-      
+        
  }
 
- const allData={
-    seleted,
-    selectstate,
-    selectDivi,
-    selectThana,
-    site,
-    UnionValue,
-    ZipValue,
-    villageValue,
-    house,
-    phone,
-    fax
-
- }
- const CopyBilling=()=>{
-    const allData={
+  const allData={
         countryName:seleted,
        bivagname:selectstate,
        zilaName:selectDivi,
@@ -110,11 +108,62 @@ console.log(thana);
       village:villageValue,
        bari:house,
        mobile:phone,
-       fax:fax
+       ffax:fax
     
      }
+    
+    localStorage.setItem('copyData',JSON.stringify(allData)) 
+ 
+ 
+    const CopyBilling=()=>{
+        const copydata=localStorage.getItem('copyData')
+     if(copydata){
+        return setCopyData(JSON.parse(copydata))
+     }
+      else{
+        return {}
+      }     
+    }
+   
+    
      
-}   
+ 
+
+
+
+
+const InputData=(e)=>{
+    if(e){
+        setSitevalue(e.target.value)
+        setEnable(false)
+    }
+     
+   
+} 
+
+const handlaeUnion=(e)=>{
+    setUnionValue(e.target.value.toLocaleLowerCase())
+    setEnableZip(false)
+}
+const HandleVillage=(e)=>{
+    setZipValue(e.target.value.toLocaleLowerCase())
+    setEnableVillage(false)
+}
+const HandleHouse=(e)=>{
+    setvillageValue(e.target.value.toLocaleLowerCase())
+    setEnableHouse(false)
+
+}
+const handlePhone=(e)=>{
+    setHouse(e.target.value)
+    setEnablephone(false)
+     
+}
+const handleFax=(e)=>{
+    setPhone(e.target.value)
+    setEnableFax(false)
+}
+ 
     return (
         <div style={{display:'flex',justifyContent:'space-between',gap:'80px'}}>
              <div>
@@ -123,15 +172,16 @@ console.log(thana);
                         <h3>Attention</h3>
                         {/* Country------------ */}
                         <form>
-                            <input type="text" id="name"
-                            onChange={(e)=>setSitevalue(e.target.value)}
-                             name="tname" placeholder="Enter person/site name" />
+                            <input type="text"  
+                            onChange={(e)=>InputData(e)}
+                               placeholder="Enter person/site name" />
 
                             <label style={{fontWeight:'bold'}}>Country</label>
                              
 
                             <div className='dropdown-search'  >
-                                <select onClick={(e)=>setActive(!isActive)}  className='selet-btn'>
+                                <select onClick={(e)=>setActive(!isActive)} disabled={enabale} 
+                                 className='selet-btn'>
                                     
                                    <option
                                    
@@ -157,6 +207,7 @@ console.log(thana);
                                                 key={index}
                                               
                                               onClick={(e)=>handleChange(country)}
+                                               
                                                 >
                                                    {country.country_name}
                                                 </li>)
@@ -171,8 +222,10 @@ console.log(thana);
 
                           <label style={{fontWeight:'bold'}}>Devision/Province/State</label>
                           <div className='dropdown-search'>
-                                <select onClick={(e)=>setStateAvtive(!issate)}   className='selet-btn'>
-                                   <option> {selectstate?selectstate:
+                                <select onClick={(e)=>setStateAvtive(!issate)} disabled={enabaledeve}  className='selet-btn'>
+                                   <option
+                                   
+                                   > {selectstate?selectstate:
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
                                     }</option>
@@ -210,7 +263,7 @@ console.log(thana);
 
                             <label style={{fontWeight:'bold'}}>District</label>
                           <div className='dropdown-search'>
-                                <select onClick={(e)=>setDistrictAvtive(!isdistrict)}   className='selet-btn'>
+                                <select onClick={(e)=>setDistrictAvtive(!isdistrict)} disabled={enabaleDist}  className='selet-btn'>
                                    <option> {selectDivi?selectDivi:
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
@@ -249,7 +302,7 @@ console.log(thana);
 
                              <label style={{fontWeight:'bold'}}>City/Sub District/Thana</label>
                           <div className='dropdown-search'>
-                                <select onClick={(e)=>setThana(!isThana)}   className='selet-btn'>
+                                <select onClick={(e)=>setThana(!isThana)} disabled={enabaleThana}   className='selet-btn'>
                                    <option> {selectThana?selectThana:
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
@@ -278,6 +331,7 @@ console.log(thana);
                                                     setSeletctThana(postData?.upazila)
                                                     setThana(!isThana)
                                                 }
+                                                setEnableUnion(false)
                                                 setThana(!isThana)
                                               }}
                                                 >
@@ -292,7 +346,7 @@ console.log(thana);
 {/* Union Area town---------------------------------- */}
 <label style={{fontWeight:'bold'}}>Union/Area/Town</label>
                           <div className='dropdown-search'>
-                                <select onClick={(e)=>setUnion(!isUnion)}   className='selet-btn'>
+                                <select onClick={(e)=>setUnion(!isUnion)} disabled={enabaleUmiom}  className='selet-btn'>
                                    <option>  
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
@@ -306,7 +360,7 @@ console.log(thana);
                                         <div className='search'>
                                     <input type='text'
                                     value={UnionValue}
-                                     onChange={(e)=>setUnionValue(e.target.value.toLocaleLowerCase())}/>
+                                     onChange={(e)=>handlaeUnion(e)}/>
                                         </div>
                                         <ul className='seletoption'>
                                             <li style={{color:'rgb(31, 239, 31)', fontWeight:'bold'}}>Search for select</li>  
@@ -318,7 +372,7 @@ console.log(thana);
                              {/* Zip code----------------------- */}
                              <label style={{fontWeight:'bold'}}>Zipcode</label>
                           <div className='dropdown-search'>
-                                <select onClick={(e)=>setZip(!isZip)}   className='selet-btn'>
+                                <select onClick={(e)=>setZip(!isZip)} disabled={enabaleZip}  className='selet-btn'>
                                    <option> 
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                      </option>
@@ -331,7 +385,7 @@ console.log(thana);
                                         <div className='search'>
                                     <input type='text'
                                     value={ZipValue}
-                                     onChange={(e)=>setZipValue(e.target.value.toLocaleLowerCase())}/>
+                                     onChange={(e)=>HandleVillage(e)}/>
                                         </div>
                                         <ul className='seletoption'>
                                             <li style={{color:'rgb(31, 239, 31)', fontWeight:'bold'}}>Search for select</li>  
@@ -345,7 +399,7 @@ console.log(thana);
                             
                               <label style={{fontWeight:'bold'}}>Street Address/village</label>
                           <div className='dropdown-search'>
-                                <select onClick={(e)=>setVillage(!isvillage)}   className='selet-btn'>
+                                <select onClick={(e)=>setVillage(!isvillage)} disabled={enabalevillage}   className='selet-btn'>
                                    <option> 
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                      </option>
@@ -358,7 +412,7 @@ console.log(thana);
                                         <div className='search'>
                                     <input type='text'
                                     value={villageValue}
-                                     onChange={(e)=>setvillageValue(e.target.value.toLocaleLowerCase())}/>
+                                     onChange={(e)=>HandleHouse(e)}/>
                                         </div>
                                         <ul className='seletoption'>
                                             <li style={{color:'rgb(31, 239, 31)', fontWeight:'bold'}}>Search for select</li>  
@@ -367,16 +421,18 @@ console.log(thana);
                                     </div>
                                     }
                              </div>
-                             <label>House/suite/apartmentno</label>
-                             <input style={{fontWeight:'bold'}} 
-                              onChange={(e)=>setHouse(e.target.value)}
+                             <label style={{fontWeight:'bold'}} >House/suite/apartmentno</label>
+                             <input disabled={enabalehouse} 
+                              onChange={(e)=>handlePhone(e)}
                              name='house' type='text'/>
-                             <label>Phone</label>
-                             <input style={{fontWeight:'bold'}} 
-                              onChange={(e)=>setPhone(e.target.value)}
+                             <label style={{fontWeight:'bold'}} >Phone</label>
+                             <input 
+                             disabled={enabalephone}
+                              onChange={(e)=>handleFax(e)}
                              name='phone' type='text'/>
-                             <label>Fax</label>
-                             <input style={{fontWeight:'bold'}}
+                             <label style={{fontWeight:'bold'}}>Fax</label>
+                             <input 
+                             disabled={enabalefax}
                               onChange={(e)=>setfax(e.target.value)}
                               name='fax' type='text'/>
                         </form>
@@ -385,7 +441,7 @@ console.log(thana);
                     </div>
                     <div></div>
                 </div>
-            <Shipping CopyBilling={CopyBilling}/>
+            <Shipping CopyBilling={CopyBilling} copyData={copyData}/>
 
         </div>
     );
