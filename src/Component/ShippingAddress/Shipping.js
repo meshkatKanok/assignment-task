@@ -154,7 +154,7 @@ const handleFax=(e)=>{
                         <form>
                             <input type="text"  
                             onChange={(e)=>InputData(e)}
-                            value={wensiteName?wensiteName:''}
+                            value={wensiteName}
                                placeholder="Enter person/site name" />
 
                             <label style={{fontWeight:'bold'}}>Country</label>
