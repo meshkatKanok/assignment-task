@@ -166,7 +166,7 @@ const handleFax=(e)=>{
                                     
                                    <option
                                    
-                                   >{countryName?countryName:seleted &&
+                                   >{countryName?countryName:seleted||
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     }</option>
                                 </select> 
@@ -206,7 +206,7 @@ const handleFax=(e)=>{
                                 <select onClick={(e)=>setStateAvtive(!issate)} disabled={enabaledeve}  className='selet-btn'>
                                    <option
                                    
-                                   > {bivagname?bivagname:selectstate&&
+                                   > {bivagname?bivagname:selectstate||
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
                                     }</option>
@@ -245,7 +245,7 @@ const handleFax=(e)=>{
                             <label style={{fontWeight:'bold'}}>District</label>
                           <div className='dropdown-search'>
                                 <select onClick={(e)=>setDistrictAvtive(!isdistrict)} disabled={enabaleDist}  className='selet-btn'>
-                                   <option> {zilaName?zilaName:selectDivi&&
+                                   <option> {zilaName?zilaName:selectDivi||
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
                                     }</option>
@@ -284,7 +284,7 @@ const handleFax=(e)=>{
                              <label style={{fontWeight:'bold'}}>City/Sub District/Thana</label>
                           <div className='dropdown-search'>
                                 <select onClick={(e)=>setThana(!isThana)} disabled={enabaleThana}   className='selet-btn'>
-                                   <option> {postName?postName:selectThana&&
+                                   <option> {postName?postName:selectThana||
                                     <span style={{color:'#ccc'}}>Please Search</span>
                                     
                                     }</option>
